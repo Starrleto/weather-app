@@ -1,6 +1,6 @@
 .center-navbar{
-    padding-left: 200px;
-    padding-right: 200px;
+    display: flex;
+    justify-content: space-evenly;
 }
 
 .main-display{
@@ -18,10 +18,15 @@
     display: flex;
 }
 
-.center-button{
+.center{
     margin-top: 30px;
     display: flex;
     justify-content: center;
+}
+
+.favorites-button{
+    padding-left: 80px;
+    padding-right: 80px;
 }
 
 .icon-setting{
@@ -30,14 +35,31 @@
 
 .weekly-forecast{
     display: flex;
-    
 }
 
-.daily-forecast{ 
+.hide{ 
     display: none;
 }
 /* For the funny button */
 
 .day-card{
     text-align: center;
+}
+
+.today-card-header{
+    display: flex;
+    justify-content: space-between;
+    margin: 10px;
+}
+
+.today-times{
+    display: flex;
+    justify-content: space-between;
+}
+
+.day-button{
+    background: none;
+    border: none;
+    box-shadow: none;
+    margin-right: 5px;
 }

@@ -9,10 +9,11 @@
     </head>
   <body>
 
-    <div>
-        <nav class="navbar bg-body-tertiary">
-            <div class="container-fluid center-navbar">
-                <h1>climate.xchange</h1>
+    <!-- Navbar -->
+    <div>                 
+        <nav class="navbar bg-body-tertiary center-navbar">
+          <h1>climate.xchange</h1>
+            <div>
               <form class="d-flex" role="search">
                 <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
                 <button class="btn btn-outline-success" type="submit">
@@ -22,14 +23,20 @@
             </div>
         </nav>
     </div>
+    <!-- Navbar -->
 
+    <!-- Main Display -->
     <div class="main-display">
 
         <div class="card separate" style="width: 26.7rem;">
             <div class="card-body">
-              <h5 class="card-title" id="locationName">Turlock</h5>
+              <div class="today-card-header">
+                <h5 class="card-title" id="locationName">Turlock</h5>
+                <button id="favoriteButton"><img src="" alt="favorites heart"></button>
+              </div>
+
                 <div class="current-weather">
-                    <img src="./assets/sun.png" alt="weather icon" class="separate icon-setting img-fluid">
+                    <img src="./assets/sun.png" alt="weather icon" class="separate icon-setting img-fluid" id="mainWeatherIcon">
                     <h1 id="tempDisplay">60 °F</h1>
                     <hr>
                 </div>
@@ -42,51 +49,47 @@
 
           <div class="card" style="width: 26.7rem;">
             <div class="card-body">
-              <h5 class="card-title">Card title</h5>
-              <h6 class="card-subtitle mb-2 text-body-secondary">Card subtitle</h6>
-              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-              <a href="#" class="card-link">Card link</a>
-              <a href="#" class="card-link">Another link</a>
+              <div class="today-card-header">
+                <h5>Today</h5>
+                <h5 id="timeDisplay">12:00 PM</h5>
+              </div>
+              <div class="today-times">
+                <div>
+                  <p>8am</p>
+                  <img src="" alt="weather icon">
+                  <p>60 F°</p>
+                </div>
+                <div>
+                  <p>12pm</p>
+                  <img src="" alt="weather icon">
+                  <p>60 F°</p>
+                </div>
+                <div>
+                  <p>8pm</p>
+                  <img src="" alt="weather icon">
+                  <p>60 F°</p>
+                </div>
+              </div>
             </div>
           </div>
     </div>
+    <!-- Main Display -->
 
+    <!-- Weekly Forecast -->
     <div class="main-display">
-    <!-- Weekly Forecast here -->
         <div class="weekly-forecast">
-
-          <div class="card separate" style="width: 10rem;">
-            <div class="card-body day-card">
-              <p id="dayOne">Mon 12/4</p>
-              <img src="" alt="weather icon" class="separate">
-              <p>74 F° | 54 F°</p>
-            </div>
-          </div>
           
-          <div class="card separate" style="width: 10rem;">
-            <div class="card-body day-card">
-              <p id="dayTwo">Tue 12/5</p>
-              <img src="" alt="weather icon" class="separate">
-              <p>74 F° | 54 F°</p>
+          <button class="day-button" id="dayOneButton">
+            <div class="card" style="width: 10rem;">
+              <div class="card-body day-card">
+                <p id="dayOne">Mon 12/4</p>
+                <img src="" alt="weather icon" class="separate">
+                <p>74 F° | 54 F°</p>
+              </div>
             </div>
-          </div>
-
-          <div class="card separate" style="width: 10rem;">
-            <div class="card-body day-card">
-              <p id="dayTwo">Tue 12/5</p>
-              <img src="" alt="weather icon" class="separate">
-              <p>74 F° | 54 F°</p>
-            </div>
-          </div>
-
-          <div class="card separate" style="width: 10rem;">
-            <div class="card-body day-card">
-              <p id="dayTwo">Tue 12/5</p>
-              <img src="" alt="weather icon" class="separate">
-              <p>74 F° | 54 F°</p>
-            </div>
-          </div>
-
+          </button>
+          
+        <button class="day-button" id="dayTwoButton">
           <div class="card" style="width: 10rem;">
             <div class="card-body day-card">
               <p id="dayTwo">Tue 12/5</p>
@@ -94,14 +97,87 @@
               <p>74 F° | 54 F°</p>
             </div>
           </div>
+        </button>
 
+        <button class="day-button" id="dayThreeButton">
+          <div class="card" style="width: 10rem;">
+            <div class="card-body day-card">
+              <p id="dayThree">Tue 12/5</p>
+              <img src="" alt="weather icon" class="separate">
+              <p>74 F° | 54 F°</p>
+            </div>
+          </div>
+        </button>
+
+        <button class="day-button" id="dayFourButton">
+          <div class="card" style="width: 10rem;">
+            <div class="card-body day-card">
+              <p id="dayFour">Tue 12/5</p>
+              <img src="" alt="weather icon" class="separate">
+              <p>74 F° | 54 F°</p>
+            </div>
+          </div>
+        </button>
+
+        <button class="day-button" id="dayFiveButton">
+          <div class="card" style="width: 10rem;">
+            <div class="card-body day-card">
+              <p id="dayFive">Tue 12/5</p>
+              <img src="" alt="weather icon" class="separate">
+              <p>74 F° | 54 F°</p>
+            </div>
+          </div>
+      </div>
+    </button>
+
+    </div>
+    <!-- Weekly Forecast -->
+
+    <!-- Hideable Day Card -->
+    <div class="hide" id="dayExpandCard">
+            <div class="card" style="width: 26.7rem;">
+        <div class="card-body">
+          <div>
+            <h5 id="dayOfWeekExpand">Wednesday</h5>
+          </div>
+          <div class="today-times">
+            <div>
+              <p>8am</p>
+              <img src="" alt="weather icon">
+              <p>60 F°</p>
+            </div>
+            <div>
+              <p>8am</p>
+              <img src="" alt="weather icon">
+              <p>60 F°</p>
+            </div>
+            <div>
+              <p>8am</p>
+              <img src="" alt="weather icon">
+              <p>60 F°</p>
+            </div>
+        </div>
       </div>
     </div>
+  </div>
+  <!-- Hideable Day Card -->
 
-    <!--  Favorite -->
-    <div class="center-button">
-        <button type="button" class="btn btn-secondary">Open Your Favorite Places</button>
+    <!--  Favorite Button -->
+    <div class="center">
+        <button type="button" class="btn btn-secondary favorites-button" id="favoritesList" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">Open Your Favorite Places</button>
     </div>
+    <!--  Favorite Button -->
+
+    <!-- Offcanvas Favorites List -->
+    <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+      <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="offcanvasExampleLabel">YOUR FAVORITE CITIES</h5>
+        <div id="yeah">
+          
+        </div>
+      </div>
+    </div>
+    <!-- Offcanvas Favorites List -->
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
     <script src="./script/script.js"></script>
