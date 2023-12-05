@@ -1,8 +1,10 @@
 .center-navbar{
-    margin-left: 100px;
+    padding-left: 200px;
+    padding-right: 200px;
 }
 
 .main-display{
+    margin-top: 30px;
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -20,4 +22,22 @@
     margin-top: 30px;
     display: flex;
     justify-content: center;
+}
+
+.icon-setting{
+    width: 70px;
+}
+
+.weekly-forecast{
+    display: flex;
+    
+}
+
+.daily-forecast{ 
+    display: none;
+}
+/* For the funny button */
+
+.day-card{
+    text-align: center;
 }

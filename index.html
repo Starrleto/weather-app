@@ -9,13 +9,15 @@
     </head>
   <body>
 
-    <div class="center-navbar">
+    <div>
         <nav class="navbar bg-body-tertiary">
-            <div class="container-fluid">
+            <div class="container-fluid center-navbar">
                 <h1>climate.xchange</h1>
               <form class="d-flex" role="search">
                 <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-success" type="submit">Search</button>
+                <button class="btn btn-outline-success" type="submit">
+                  <img src="./assets/search.png" alt="search button" class="img-fluid" style="width: 30px;">
+                </button>
               </form>
             </div>
         </nav>
@@ -23,18 +25,22 @@
 
     <div class="main-display">
 
-        <div class="card separate" style="width: 18rem;">
+        <div class="card separate" style="width: 26.7rem;">
             <div class="card-body">
-              <h5 class="card-title">Card title</h5>
+              <h5 class="card-title" id="locationName">Turlock</h5>
                 <div class="current-weather">
-                    <img src="" alt="weather icon" class="separate">
-                    <h1>60 F°</h1>
+                    <img src="./assets/sun.png" alt="weather icon" class="separate icon-setting img-fluid">
+                    <h1 id="tempDisplay">60 °F</h1>
                     <hr>
+                </div>
+                <div>
+                  <p id="mainWeatherType">cloudy</p>
+                  <p id="mainHighLow">H: 72°F L: 37°F</p>
                 </div>
             </div>
         </div>
 
-          <div class="card" style="width: 18rem;">
+          <div class="card" style="width: 26.7rem;">
             <div class="card-body">
               <h5 class="card-title">Card title</h5>
               <h6 class="card-subtitle mb-2 text-body-secondary">Card subtitle</h6>
@@ -45,13 +51,51 @@
           </div>
     </div>
 
+    <div class="main-display">
     <!-- Weekly Forecast here -->
-    <div>
-        <div>
-            <p>Mon 12/4</p>
-            <img src="" alt="weather icon" class="separate">
-            <p>74 F° | 54 F°</p>
-        </div>
+        <div class="weekly-forecast">
+
+          <div class="card separate" style="width: 10rem;">
+            <div class="card-body day-card">
+              <p id="dayOne">Mon 12/4</p>
+              <img src="" alt="weather icon" class="separate">
+              <p>74 F° | 54 F°</p>
+            </div>
+          </div>
+          
+          <div class="card separate" style="width: 10rem;">
+            <div class="card-body day-card">
+              <p id="dayTwo">Tue 12/5</p>
+              <img src="" alt="weather icon" class="separate">
+              <p>74 F° | 54 F°</p>
+            </div>
+          </div>
+
+          <div class="card separate" style="width: 10rem;">
+            <div class="card-body day-card">
+              <p id="dayTwo">Tue 12/5</p>
+              <img src="" alt="weather icon" class="separate">
+              <p>74 F° | 54 F°</p>
+            </div>
+          </div>
+
+          <div class="card separate" style="width: 10rem;">
+            <div class="card-body day-card">
+              <p id="dayTwo">Tue 12/5</p>
+              <img src="" alt="weather icon" class="separate">
+              <p>74 F° | 54 F°</p>
+            </div>
+          </div>
+
+          <div class="card" style="width: 10rem;">
+            <div class="card-body day-card">
+              <p id="dayTwo">Tue 12/5</p>
+              <img src="" alt="weather icon" class="separate">
+              <p>74 F° | 54 F°</p>
+            </div>
+          </div>
+
+      </div>
     </div>
 
     <!--  Favorite -->
