@@ -11,7 +11,9 @@ let mainHighLow = document.getElementById("mainHighLow");
 let mainWeatherType = document.getElementById("mainWeatherType");
 let mainWeatherIcon = document.getElementById("mainWeatherIcon");
 let favoriteButton = document.getElementById ("favoriteButton");
-let favoritesList = document.getElementById("favoritesList");
+let favoritesList = document.getElementById ("favoritesList");
+let favoritesContainer = document.getElementById("favoritesContainer"); 
+let favoriteElements = [];
 let dayExpandCard = document.getElementById("dayExpandCard");
 let searchEntry = document.getElementById("searchEntry");
 let searchBtn = document.getElementById("searchBtn");
@@ -23,6 +25,7 @@ let dates = [];
 let dateButtons = [];
 let mainHours = [];
 let mainHoursTemp = [];
+let mainIcons = [];
 let dayHours = [];
 let dayTemps = [];
 let dayHourlyTemps = [];
@@ -46,6 +49,10 @@ mainHours.push(document.getElementById("hourThree"));
 mainHoursTemp.push(document.getElementById("hourOneTemp"));
 mainHoursTemp.push(document.getElementById("hourTwoTemp"));
 mainHoursTemp.push(document.getElementById("hourThreeTemp"));
+
+mainIcons.push(document.getElementById("dayOneIcon"));
+mainIcons.push(document.getElementById("dayTwoIcon"));
+mainIcons.push(document.getElementById("dayThreeIcon"));
 
 navigator.geolocation.getCurrentPosition(success, error);
     assignDates();
@@ -189,7 +196,8 @@ function getIconImage(icon){
 }
 
 favoriteButton.addEventListener('click', function(e){
-    addToFavorite(currentData.name);
+    if(!favorites.includes(currentData.name))
+    favorites.push(currentData.name);
 });
 
 searchBtn.addEventListener('click', function(e){
@@ -198,11 +206,19 @@ searchBtn.addEventListener('click', function(e){
     searchEntry.value = "";
 })
 
-function addToFavorite(location){
-    if(!favorites.includes(location))
-        favorites.push(location);
-    console.log(favorites);
-}
+favoritesList.addEventListener('click', function(e){
+    favoriteElements.forEach(element => {
+        element.remove();
+    });
+    favoriteElements = [];
+    favorites.forEach(element => {
+        console.log(element);
+        let e = document.createElement("p");
+        e.innerText = element;
+        favoritesContainer.appendChild(e);
+        favoriteElements.push(e);
+    });
+});
 
 function success(pos){
     position = pos;
