@@ -1,21 +1,20 @@
 .center-navbar{
     display: flex;
     justify-content: space-evenly;
-    background-color: #ededed;
+    background-color: #3b3b3b;
 }
 
 .color{
-    color: #656565;
+    color: #ffffff;
 }
 
 .color-darker{
-    color: #424242;
+    color: #ffffff;
 }
 
 .search-bar{
     border-radius: 10px;
     border-width: 0px;
-    box-shadow: 0px 0px 20px rgb(205, 205, 205);
 }
 
 .main-display{
@@ -122,20 +121,26 @@
 .break{
     border-style: dashed;
     border-width: 1.2px;
+    border-color: white;
 }
 
 .not-selected-thing{
-    background-color: rgba(255, 255, 255, 0.534);
+    background-color: rgba(68, 68, 68, 0.534);
     border-width: 0px;
+}
+
+.just-dark{
+    background-color: #444444;
 }
 
 .selected-thing{
     border-width: 0px;
-    background-color:#ffffff
+    background-color:#212121
 }
 
 .body-of-card{
     border-width: 0px;
+    background-color: #555555;
 }
 
 .main-high-low{
@@ -146,30 +151,36 @@
     font-size: 40px;
 }
 
+.hour-temp-s{
+    font-size: 20px;
+}
+
 .failed-modal{
     display: flex;
     flex-direction: column;
     justify-content: center;
     text-align: center;
-    border-color: white
+    border-color:#444444
 }
 
 .close-fav{
-    border: solid black 1px;
+    border: solid rgb(255, 255, 255) 1px;
     border-radius: 50px;
     width: 30px;
-    background-color: #ffffff;
+    background-color: #444444;
+    color: white;
 }
 
 .switch{
     position: absolute;
     bottom: 0;
-    left: 0;
+    right: 0;
     width: 500px;
     height: 500px;
 }
 
+
 body{
-    background-image: url(../assets/bg.png);
+    background-image: url(../assets/bgdark.png);
     background-size: cover;
 }

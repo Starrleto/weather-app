@@ -1,4 +1,5 @@
 let initialize = false;
+let nightMode = false;
 let currentData;
 let weeklyData;
 let position;
@@ -6,6 +7,8 @@ let favorites = [];
 const weekday = ["SUN","MON","TUE","WED","THU","FRI","SAT"];
 const weekdayLonger = ["SUNDAY","MONDAY","TUESDAY","WEDNESDAY","THURSDAY","FRIDAY","SATURDAY"];
 
+let dnswitch = document.getElementById("dnswitch");
+let styleLink = document.getElementById("styleLink");
 let cityName = document.getElementById("locationName");
 let currentTemp = document.getElementById("tempDisplay");
 let mainHighLow = document.getElementById("mainHighLow");
@@ -34,6 +37,7 @@ let dayIcons = [];
 let dayHourlyTemps = [];
 let dayHourlyTimes = [];
 let dayHourlyIcons = [];
+let selects = []
 
 dates.push(document.getElementById("dayOne"));
 dates.push(document.getElementById("dayTwo"));
@@ -83,19 +87,29 @@ dayHourlyIcons.push(document.getElementById("hourlyImage1"));
 dayHourlyIcons.push(document.getElementById("hourlyImage2"));
 dayHourlyIcons.push(document.getElementById("hourlyImage3"));
 
+selects.push(document.getElementById("select1"));
+selects.push(document.getElementById("select2"));
+selects.push(document.getElementById("select3"));
+selects.push(document.getElementById("select4"));
+selects.push(document.getElementById("select5"));
+
 navigator.geolocation.getCurrentPosition(success, error);
 
-function expandDay(dayNum, weatherDay){ // Expand Day Card
+function expandDay(dayNum, weatherDay, num){ // Expand Day Card
     let index = weeklyData.list.indexOf(getWeatherFromDay(weatherDay)); // Gets the index of the start of the day in weather list
     if(expanded){
         dayExpandCard.className = "hide";
         expanded = false;
+        selects.forEach(element => {
+            element.className = "card not-selected-thing"; 
+        });
     }
     else{
         dayExpandCard.className = "center";
         dayOfWeekExpand.innerText = weekdayLonger[dayNum];
         dayExpandCard.scrollIntoView();
         expanded = true;
+        selects[num].className = "card selected-thing";
         for(let i = 0; i < dayHourlyTemps.length; i++){ // Adds i to the index to get the next few hours of the day.
             dayHourlyTemps[i].innerText = `${Math.trunc(weeklyData.list[index+i].main.temp)} °F`;
             dayHourlyTimes[i].innerText = convertNumToHour(weeklyData.list[index+i].dt_txt.split(' ')[1].split(':')[0]);
@@ -153,7 +167,7 @@ function assignDates(){ // For the Weekly weather cards
 
         if(!initialize) // Assigns button functions on first open
             dateButtons[i].addEventListener('click', function(e){
-                expandDay(n, d.split(' ')[2]);
+                expandDay(n, d.split(' ')[2], i);
             });
     }
 }
@@ -307,6 +321,18 @@ searchBtn.addEventListener('click', function(e){ // Search Button
     searchEntry.value = "";
 })
 
+dnswitch.addEventListener('click', function(e){
+    if(nightMode){
+        styleLink.href = "./style/styles.css";
+        nightMode = false;
+    }
+    else
+    {
+        styleLink.href = "./style/stylesnight.css";
+        nightMode = true;
+    }
+});
+
 favoritesList.addEventListener('click', function(e){ // Favorites Offcanvas Opener
     favoriteElements.forEach(element => {
         element.remove();
@@ -315,6 +341,7 @@ favoritesList.addEventListener('click', function(e){ // Favorites Offcanvas Open
     favorites.forEach(element => { // Creates elements for offcanvas
         let e = document.createElement("p");
         e.innerText = element;
+        e.className = "color-darker"
         e.addEventListener('click', function(e){ // Allows to directly go to city on click!
             searchAPI(element);
         })
