@@ -1,3 +1,4 @@
+let initialize = false;
 let currentData;
 let weeklyData;
 let position;
@@ -26,9 +27,11 @@ let dateButtons = [];
 let mainHours = [];
 let mainHoursTemp = [];
 let mainIcons = [];
-let dayHours = [];
 let dayTemps = [];
+let dayIcons = [];
 let dayHourlyTemps = [];
+let dayHourlyTimes = [];
+let dayHourlyIcons = [];
 
 dates.push(document.getElementById("dayOne"));
 dates.push(document.getElementById("dayTwo"));
@@ -50,23 +53,60 @@ mainHoursTemp.push(document.getElementById("hourOneTemp"));
 mainHoursTemp.push(document.getElementById("hourTwoTemp"));
 mainHoursTemp.push(document.getElementById("hourThreeTemp"));
 
-mainIcons.push(document.getElementById("dayOneIcon"));
-mainIcons.push(document.getElementById("dayTwoIcon"));
-mainIcons.push(document.getElementById("dayThreeIcon"));
+mainIcons.push(document.getElementById("mainIconOne"));
+mainIcons.push(document.getElementById("mainIconTwo"));
+mainIcons.push(document.getElementById("mainIconThree"));
+
+dayTemps.push(document.getElementById("dayOneTemps"));
+dayTemps.push(document.getElementById("dayTwoTemps"));
+dayTemps.push(document.getElementById("dayThreeTemps"));
+dayTemps.push(document.getElementById("dayFourTemps"));
+dayTemps.push(document.getElementById("dayFiveTemps"));
+
+dayIcons.push(document.getElementById("dayOneIcon"));
+dayIcons.push(document.getElementById("dayTwoIcon"));
+dayIcons.push(document.getElementById("dayThreeIcon"));
+dayIcons.push(document.getElementById("dayFourIcon"));
+dayIcons.push(document.getElementById("dayFiveIcon"));
+
+dayHourlyTemps.push(document.getElementById("dailyHourlyTemp1"));
+dayHourlyTemps.push(document.getElementById("dailyHourlyTemp2"));
+dayHourlyTemps.push(document.getElementById("dailyHourlyTemp3"));
+
+dayHourlyTimes.push(document.getElementById("hourlyTime1"));
+dayHourlyTimes.push(document.getElementById("hourlyTime2"));
+dayHourlyTimes.push(document.getElementById("hourlyTime3"));
+
+dayHourlyIcons.push(document.getElementById("hourlyImage1"));
+dayHourlyIcons.push(document.getElementById("hourlyImage2"));
+dayHourlyIcons.push(document.getElementById("hourlyImage3"));
 
 navigator.geolocation.getCurrentPosition(success, error);
-    assignDates();
 
-function expandDay(date, num){
+function expandDay(dayNum, weatherDay){ // Expand Day Card
+    let index = weeklyData.list.indexOf(getWeatherFromDay(weatherDay));
     if(expanded){
         dayExpandCard.className = "hide";
         expanded = false;
     }
     else{
         dayExpandCard.className = "center";
-        dayOfWeekExpand.innerText = weekdayLonger[date];
+        dayOfWeekExpand.innerText = weekdayLonger[dayNum];
         dayExpandCard.scrollIntoView();
         expanded = true;
+        for(let i = 0; i < dayHourlyTemps.length; i++){
+            dayHourlyTemps[i].innerText = `${Math.trunc(weeklyData.list[index+i+1].main.temp)} °F`;
+            dayHourlyTimes[i].innerText = convertNumToHour(weeklyData.list[index+i+1].dt_txt.split(' ')[1].split(':')[0]);
+            dayHourlyIcons[i].src = getIconImage(weeklyData.list[index+i+1].weather[0].main.toLowerCase());
+        }
+    }
+}
+
+function getWeatherFromDay(day){  // Searches for the day that matches in the weekly weather list
+    for(let i = 0; i < weeklyData.list.length; i++){
+        if(weeklyData.list[i].dt_txt.split(' ')[0].split('-')[2] == day){
+            return weeklyData.list[i];
+        }
     }
 }
 
@@ -74,23 +114,26 @@ function assignDates(){
     let now = new Date();
     for(let i = 0; i < dates.length; i++){
         now.setDate(now.getDate()+1);
-        let n = now.getDay();
-        dates[i].innerText = `${weekday[now.getDay()]} ${now.getMonth()} / ${now.getDate()}`;
-        
-        dateButtons[i].addEventListener('click', function(e){
-            expandDay(n, i);
-        });
+        let n = now.getDay(); // Day of Week
+        let d = now.toDateString(); // Date String of Current Time
+        let weatherOfDay = getWeatherFromDay(d.split(' ')[2]); console.log(weatherOfDay); // Splits date string and passes the day 
+
+        dates[i].innerText = `${weekday[now.getDay()]} ${now.getMonth()+1} / ${now.getDate()}`;
+        dayTemps[i].innerText = `${Math.trunc(weatherOfDay.main.temp_max)}°F | ${Math.trunc(weatherOfDay.main.temp_min)}°F`;
+        dayIcons[i].src = getIconImage(weatherOfDay.weather[0].main.toLowerCase());
+
+        if(!initialize)
+            dateButtons[i].addEventListener('click', function(e){
+                expandDay(n, d.split(' ')[2]);
+            });
     }
 }
 
-function assignDailyTemps(){
-
-}
-
-function assignHours(){
+function assignHours(){ // Changes Main Display
     for(let i = 0; i < mainHours.length; i++){
         mainHours[i].innerText = convertNumToHour(weeklyData.list[i].dt_txt.split(' ')[1].split(':')[0]);
         mainHoursTemp[i].innerText = Math.trunc(weeklyData.list[i].main.temp)+" °F";
+        mainIcons[i].src = getIconImage(weeklyData.list[i].weather[0].main.toLowerCase());
     }
 }
 
@@ -118,6 +161,7 @@ async function callAPI(){
     }
 
     resetData(await promise.json(), await secondPromise.json());
+    initialize = true;
 }
 
 async function searchAPI(city, state){
@@ -158,18 +202,19 @@ async function searchAPI(city, state){
     resetData(await promise.json(), await secondPromise.json());
 }
 
-function resetData(current, weekly){
+function resetData(current, weekly){ // Changes Data and then changes visuals to match
     currentData = current;
     weeklyData = weekly;
-    console.log(currentData);
-    console.log(weeklyData);
     assignHours();
     changeDisplay();
+    assignDates();
     time();
+    console.log(currentData);
+    console.log(weeklyData);
     console.log("Done.");
 }
 
-function changeDisplay(){
+function changeDisplay(){ // Changes all Main Display Texts
     cityName.innerText = currentData.name;
     currentTemp.innerText = Math.trunc(currentData.main.temp) + " °F";
     mainHighLow.innerText = `H:${Math.trunc(currentData.main.temp_max)}°F L:${Math.trunc(currentData.main.temp_min)}°F`;
@@ -185,13 +230,12 @@ function time(){
 
 function getIconImage(icon){
     switch(icon){
-        case "clear": return "./assets/sun.png"; // clear
-        case "clouds": return "./assets/clouds.png"; // clouds
+        case "clear": return "./assets/sun.png";
+        case "clouds": return "./assets/clouds.png";
         case "haze": return ""; 
         case "mist": return "";
         case "rain": return "";
         default: return "";
-        // rain
     }
 }
 
@@ -222,7 +266,6 @@ favoritesList.addEventListener('click', function(e){
 
 function success(pos){
     position = pos;
-    console.log(position);
     callAPI();
 }
    

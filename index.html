@@ -56,17 +56,17 @@
               <div class="today-times">
                 <div>
                   <p id="hourOne">8am</p>
-                  <img src="" alt="weather icon">
+                  <img src="" alt="weather icon" id="mainIconOne" class="separate icon-setting img-fluid">
                   <p id="hourOneTemp">60 F°</p>
                 </div>
                 <div>
                   <p id="hourTwo">12pm</p>
-                  <img src="" alt="weather icon">
+                  <img src="" alt="weather icon" id="mainIconTwo" class="separate icon-setting img-fluid">
                   <p id="hourTwoTemp">60 F°</p>
                 </div>
                 <div>
                   <p id="hourThree">8pm</p>
-                  <img src="" alt="weather icon">
+                  <img src="" alt="weather icon" id="mainIconThree" class="separate icon-setting img-fluid">
                   <p id="hourThreeTemp">60 F°</p>
                 </div>
               </div>
@@ -83,7 +83,7 @@
             <div class="card" style="width: 10rem;">
               <div class="card-body day-card">
                 <p id="dayOne">Mon 12/4</p>
-                <img src="" alt="weather icon" class="separate" id="dayOneIcon">
+                <img src="" alt="weather icon" class="separate icon-setting img-fluid" id="dayOneIcon">
                 <p id="dayOneTemps">74 F° | 54 F°</p>
               </div>
             </div>
@@ -93,7 +93,7 @@
           <div class="card" style="width: 10rem;">
             <div class="card-body day-card">
               <p id="dayTwo">Tue 12/5</p>
-              <img src="" alt="weather icon" class="separate" id="dayTwoIcon">
+              <img src="" alt="weather icon" class="separate icon-setting img-fluid" id="dayTwoIcon">
               <p id="dayTwoTemps">74 F° | 54 F°</p>
             </div>
           </div>
@@ -103,7 +103,7 @@
           <div class="card" style="width: 10rem;">
             <div class="card-body day-card">
               <p id="dayThree">Tue 12/5</p>
-              <img src="" alt="weather icon" class="separate" id="dayThreeIcon">
+              <img src="" alt="weather icon" class="separate icon-setting img-fluid" id="dayThreeIcon">
               <p id="dayThreeTemps">74 F° | 54 F°</p>
             </div>
           </div>
@@ -113,7 +113,7 @@
           <div class="card" style="width: 10rem;">
             <div class="card-body day-card">
               <p id="dayFour">Tue 12/5</p>
-              <img src="" alt="weather icon" class="separate">
+              <img src="" alt="weather icon" class="separate icon-setting img-fluid" id="dayFourIcon">
               <p id="dayFourTemps">74 F° | 54 F°</p>
             </div>
           </div>
@@ -123,7 +123,7 @@
           <div class="card" style="width: 10rem;">
             <div class="card-body day-card">
               <p id="dayFive">Tue 12/5</p>
-              <img src="" alt="weather icon" class="separate">
+              <img src="" alt="weather icon" class="separate icon-setting img-fluid" id="dayFiveIcon">
               <p id="dayFiveTemps">74 F° | 54 F°</p>
             </div>
           </div>
@@ -142,19 +142,19 @@
           </div>
           <div class="today-times">
             <div>
-              <p>8am</p>
-              <img src="" alt="weather icon">
-              <p>60 F°</p>
+              <p id="hourlyTime1">8am</p>
+              <img src="" alt="weather icon" class="separate icon-setting img-fluid" id="hourlyImage1">
+              <p id="dailyHourlyTemp1">60 F°</p>
             </div>
             <div>
-              <p>8am</p>
-              <img src="" alt="weather icon">
-              <p>60 F°</p>
+              <p id="hourlyTime2">8am</p>
+              <img src="" alt="weather icon" class="separate icon-setting img-fluid" id="hourlyImage2">
+              <p id="dailyHourlyTemp2">60 F°</p>
             </div>
             <div>
-              <p>8am</p>
-              <img src="" alt="weather icon">
-              <p>60 F°</p>
+              <p id="hourlyTime3">8am</p>
+              <img src="" alt="weather icon" class="separate icon-setting img-fluid" id="hourlyImage3">
+              <p id="dailyHourlyTemp3">60 F°</p>
             </div>
         </div>
       </div>
@@ -172,9 +172,9 @@
     <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
       <div class="offcanvas-header">
         <h5 class="offcanvas-title" id="offcanvasExampleLabel">YOUR FAVORITE CITIES</h5>
-        <div id="favoritesContainer">
-          
-        </div>
+      </div>
+      <div id="favoritesContainer" class="favorites-list">
+
       </div>
     </div>
     <!-- Offcanvas Favorites List -->
