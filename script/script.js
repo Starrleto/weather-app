@@ -22,6 +22,7 @@ let expanded = false;
 let timeDisplay = document.getElementById("timeDisplay");
 let dayOfWeekExpand = document.getElementById("dayOfWeekExpand");
 let modalToggle = new bootstrap.Modal(document.getElementById('modalToggle'), {});
+let offcanvasToggle = new bootstrap.Offcanvas(document.getElementById('offCanvasToggle'));
 let dates = [];
 let dateButtons = [];
 let mainHours = [];
@@ -95,34 +96,57 @@ function expandDay(dayNum, weatherDay){ // Expand Day Card
         dayExpandCard.scrollIntoView();
         expanded = true;
         for(let i = 0; i < dayHourlyTemps.length; i++){
-            dayHourlyTemps[i].innerText = `${Math.trunc(weeklyData.list[index+i+1].main.temp)} °F`;
-            dayHourlyTimes[i].innerText = convertNumToHour(weeklyData.list[index+i+1].dt_txt.split(' ')[1].split(':')[0]);
-            dayHourlyIcons[i].src = getIconImage(weeklyData.list[index+i+1].weather[0].main.toLowerCase());
+            dayHourlyTemps[i].innerText = `${Math.trunc(weeklyData.list[index+i].main.temp)} °F`;
+            dayHourlyTimes[i].innerText = convertNumToHour(weeklyData.list[index+i].dt_txt.split(' ')[1].split(':')[0]);
+            dayHourlyIcons[i].src = getIconImage(weeklyData.list[index+i].weather[0].main.toLowerCase());
         }
     }
 }
 
 function getWeatherFromDay(day){  // Searches for the day that matches in the weekly weather list
     for(let i = 0; i < weeklyData.list.length; i++){
-        if(weeklyData.list[i].dt_txt.split(' ')[0].split('-')[2] == day){
+        if(weeklyData.list[i].dt_txt.split(' ')[0].split('-')[2] == day && (weeklyData.list[i].dt_txt.split(' ')[1] == "09:00:00")){
             return weeklyData.list[i];
         }
     }
 }
 
-function assignDates(){
+function getMaxAndMin(day){
+    let startOfDay;
+    let max = 0;
+    let min = 0;
+    for(let i = 0; i < weeklyData.list.length; i++){
+        if(weeklyData.list[i].dt_txt.split(' ')[0].split('-')[2] == day){
+            startOfDay = i; // Start of day temps in list
+            min = Math.trunc(weeklyData.list[startOfDay].main.temp_min);
+            break;
+        }
+    }
+    while(weeklyData.list[startOfDay].dt_txt.split(' ')[0].split('-')[2] == day){ // While still on this day
+        if(Math.trunc(weeklyData.list[startOfDay].main.temp_max) > max){
+            max = Math.trunc(weeklyData.list[startOfDay].main.temp_max);
+        }
+        if(Math.trunc(weeklyData.list[startOfDay].main.temp_min) < min){
+            min = Math.trunc(weeklyData.list[startOfDay].main.temp_min);
+        }
+        startOfDay++;
+    }
+    return `${max}°F | ${min}°F`; // Returns string ready to display!
+}
+
+function assignDates(){ // For the Weekly weather cards
     let now = new Date();
     for(let i = 0; i < dates.length; i++){
         now.setDate(now.getDate()+1);
         let n = now.getDay(); // Day of Week
         let d = now.toDateString(); // Date String of Current Time
-        let weatherOfDay = getWeatherFromDay(d.split(' ')[2]); console.log(weatherOfDay); // Splits date string and passes the day 
+        let weatherOfDay = getWeatherFromDay(d.split(' ')[2]); // Splits date string and passes the day 
 
         dates[i].innerText = `${weekday[now.getDay()]} ${now.getMonth()+1} / ${now.getDate()}`;
-        dayTemps[i].innerText = `${Math.trunc(weatherOfDay.main.temp_max)}°F | ${Math.trunc(weatherOfDay.main.temp_min)}°F`;
+        dayTemps[i].innerText = getMaxAndMin(d.split(' ')[2]);
         dayIcons[i].src = getIconImage(weatherOfDay.weather[0].main.toLowerCase());
 
-        if(!initialize)
+        if(!initialize) // Assigns button functions on first open
             dateButtons[i].addEventListener('click', function(e){
                 expandDay(n, d.split(' ')[2]);
             });
@@ -137,7 +161,7 @@ function assignHours(){ // Changes Main Display
     }
 }
 
-function convertNumToHour(num){
+function convertNumToHour(num){ // Converts a number 0-24 to hour 
     let add = num - 12 >= 0 ? "pm" : "am"; 
     num = num % 12 == 0 ? 12 : num % 12;
     return num + add;
@@ -164,7 +188,7 @@ async function callAPI(){
     initialize = true;
 }
 
-async function searchAPI(city, state){
+async function searchAPI(city, state){ // Get API but via search
     
     console.log("Searching...");
 
@@ -196,6 +220,7 @@ async function searchAPI(city, state){
         }
     }
     else{
+        console.log("huh");
         return;
     }
 
@@ -205,31 +230,37 @@ async function searchAPI(city, state){
 function resetData(current, weekly){ // Changes Data and then changes visuals to match
     currentData = current;
     weeklyData = weekly;
+    dayExpandCard.className = "hide";
+    expanded = false;
+    offcanvasToggle.hide();
+    console.log(currentData);
+    console.log(weeklyData);
     assignHours();
     changeDisplay();
     assignDates();
     time();
-    console.log(currentData);
-    console.log(weeklyData);
+    if(localStorage.getItem("favList") != undefined){
+        favorites = JSON.parse(localStorage.getItem("favList"));
+    }
     console.log("Done.");
 }
 
-function changeDisplay(){ // Changes all Main Display Texts
+function changeDisplay(){ // Controls the big Main Display Texts
     cityName.innerText = currentData.name;
     currentTemp.innerText = Math.trunc(currentData.main.temp) + " °F";
     mainHighLow.innerText = `H:${Math.trunc(currentData.main.temp_max)}°F L:${Math.trunc(currentData.main.temp_min)}°F`;
     mainWeatherType.innerText = currentData.weather[0].main;
-    mainWeatherIcon.src = getIconImage(currentData.weather[0].main.toLowerCase());
+    mainWeatherIcon.src = getIconImage(currentData.weather[0].main);
 }
 
-function time(){
+function time(){ // Just the Clock
     timeDisplay.innerText =     new Date().toLocaleTimeString('en-US', { 
         hour: "numeric", 
         minute: "numeric"});
 }
 
-function getIconImage(icon){
-    switch(icon){
+function getIconImage(icon){ // Returns an image based on the weather message
+    switch(icon.toLowerCase()){
         case "clear": return "./assets/sun.png";
         case "clouds": return "./assets/clouds.png";
         case "haze": return ""; 
@@ -239,43 +270,54 @@ function getIconImage(icon){
     }
 }
 
-favoriteButton.addEventListener('click', function(e){
-    if(!favorites.includes(currentData.name))
-    favorites.push(currentData.name);
+favoriteButton.addEventListener('click', function(e){ // Favorite Button
+    if(!favorites.includes(currentData.name)){
+        favorites.push(currentData.name);
+        localStorage.setItem("favList", JSON.stringify(favorites)); // Apparently you have to turn arrays into JSON to local storage them.
+        // add heart image change
+    }
+    else
+    {
+        favorites.splice(favorites.indexOf(currentData.name), 1);
+        localStorage.setItem("favList", JSON.stringify(favorites));
+        // add heart image change
+    }
 });
 
-searchBtn.addEventListener('click', function(e){
+searchBtn.addEventListener('click', function(e){ // Search Button
     console.log(searchEntry.value);
     searchAPI(searchEntry.value)
     searchEntry.value = "";
 })
 
-favoritesList.addEventListener('click', function(e){
+favoritesList.addEventListener('click', function(e){ // Favorites Offcanvas Opener
     favoriteElements.forEach(element => {
         element.remove();
     });
     favoriteElements = [];
-    favorites.forEach(element => {
-        console.log(element);
+    favorites.forEach(element => { // Creates elements for offcanvas
         let e = document.createElement("p");
         e.innerText = element;
+        e.addEventListener('click', function(e){ // Allows to directly go to city on click!
+            searchAPI(element);
+        })
         favoritesContainer.appendChild(e);
         favoriteElements.push(e);
     });
 });
 
-function success(pos){
+function success(pos){ // Success for Geolocator
     position = pos;
     callAPI();
 }
    
-   function error(pos){
+   function error(pos){ // Error for Geolocator
        position = pos;
        console.log(position.message);
        callAPI();
 }
 
-function notFoundCity(){
+function notFoundCity(){ // Bad Search respond function
     console.log("City not found!");
     modalToggle.show();
 }
