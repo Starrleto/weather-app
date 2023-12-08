@@ -23,6 +23,7 @@ let timeDisplay = document.getElementById("timeDisplay");
 let dayOfWeekExpand = document.getElementById("dayOfWeekExpand");
 let modalToggle = new bootstrap.Modal(document.getElementById('modalToggle'), {});
 let offcanvasToggle = new bootstrap.Offcanvas(document.getElementById('offCanvasToggle'));
+let desc = document.getElementById("desc");
 let dates = [];
 let dateButtons = [];
 let mainHours = [];
@@ -85,7 +86,7 @@ dayHourlyIcons.push(document.getElementById("hourlyImage3"));
 navigator.geolocation.getCurrentPosition(success, error);
 
 function expandDay(dayNum, weatherDay){ // Expand Day Card
-    let index = weeklyData.list.indexOf(getWeatherFromDay(weatherDay));
+    let index = weeklyData.list.indexOf(getWeatherFromDay(weatherDay)); // Gets the index of the start of the day in weather list
     if(expanded){
         dayExpandCard.className = "hide";
         expanded = false;
@@ -95,10 +96,11 @@ function expandDay(dayNum, weatherDay){ // Expand Day Card
         dayOfWeekExpand.innerText = weekdayLonger[dayNum];
         dayExpandCard.scrollIntoView();
         expanded = true;
-        for(let i = 0; i < dayHourlyTemps.length; i++){
+        for(let i = 0; i < dayHourlyTemps.length; i++){ // Adds i to the index to get the next few hours of the day.
             dayHourlyTemps[i].innerText = `${Math.trunc(weeklyData.list[index+i].main.temp)} °F`;
             dayHourlyTimes[i].innerText = convertNumToHour(weeklyData.list[index+i].dt_txt.split(' ')[1].split(':')[0]);
-            dayHourlyIcons[i].src = getIconImage(weeklyData.list[index+i].weather[0].main.toLowerCase());
+            dayHourlyIcons[i].src = getIconImage(weeklyData.list[index+i].weather[0].main, weeklyData.list[index+i].weather[0].description);
+            desc.innerText = weeklyData.list[index+i].weather[0].description;
         }
     }
 }
@@ -122,6 +124,7 @@ function getMaxAndMin(day){
             break;
         }
     }
+
     while(weeklyData.list[startOfDay].dt_txt.split(' ')[0].split('-')[2] == day){ // While still on this day
         if(Math.trunc(weeklyData.list[startOfDay].main.temp_max) > max){
             max = Math.trunc(weeklyData.list[startOfDay].main.temp_max);
@@ -130,6 +133,8 @@ function getMaxAndMin(day){
             min = Math.trunc(weeklyData.list[startOfDay].main.temp_min);
         }
         startOfDay++;
+        if(startOfDay >= weeklyData.list.length)
+            break;
     }
     return `${max}°F | ${min}°F`; // Returns string ready to display!
 }
@@ -144,7 +149,7 @@ function assignDates(){ // For the Weekly weather cards
 
         dates[i].innerText = `${weekday[now.getDay()]} ${now.getMonth()+1} / ${now.getDate()}`;
         dayTemps[i].innerText = getMaxAndMin(d.split(' ')[2]);
-        dayIcons[i].src = getIconImage(weatherOfDay.weather[0].main.toLowerCase());
+        dayIcons[i].src = getIconImage(weatherOfDay.weather[0].main, weatherOfDay.weather[0].description);
 
         if(!initialize) // Assigns button functions on first open
             dateButtons[i].addEventListener('click', function(e){
@@ -157,7 +162,7 @@ function assignHours(){ // Changes Main Display
     for(let i = 0; i < mainHours.length; i++){
         mainHours[i].innerText = convertNumToHour(weeklyData.list[i].dt_txt.split(' ')[1].split(':')[0]);
         mainHoursTemp[i].innerText = Math.trunc(weeklyData.list[i].main.temp)+" °F";
-        mainIcons[i].src = getIconImage(weeklyData.list[i].weather[0].main.toLowerCase());
+        mainIcons[i].src = getIconImage(weeklyData.list[i].weather[0].main, weeklyData.list[i].weather[0].description);
     }
 }
 
@@ -238,6 +243,7 @@ function resetData(current, weekly){ // Changes Data and then changes visuals to
     assignHours();
     changeDisplay();
     assignDates();
+    changeFavButton();
     time();
     if(localStorage.getItem("favList") != undefined){
         favorites = JSON.parse(localStorage.getItem("favList"));
@@ -250,7 +256,7 @@ function changeDisplay(){ // Controls the big Main Display Texts
     currentTemp.innerText = Math.trunc(currentData.main.temp) + " °F";
     mainHighLow.innerText = `H:${Math.trunc(currentData.main.temp_max)}°F L:${Math.trunc(currentData.main.temp_min)}°F`;
     mainWeatherType.innerText = currentData.weather[0].main;
-    mainWeatherIcon.src = getIconImage(currentData.weather[0].main);
+    mainWeatherIcon.src = getIconImage(currentData.weather[0].main, currentData.weather[0].description);
 }
 
 function time(){ // Just the Clock
@@ -259,14 +265,19 @@ function time(){ // Just the Clock
         minute: "numeric"});
 }
 
-function getIconImage(icon){ // Returns an image based on the weather message
+function getIconImage(icon, desc){ // Returns an image based on the weather message
     switch(icon.toLowerCase()){
-        case "clear": return "./assets/sun.png";
-        case "clouds": return "./assets/clouds.png";
-        case "haze": return ""; 
-        case "mist": return "";
-        case "rain": return "";
-        default: return "";
+        case "clear": return "./assets/sun-light.svg";
+        case "clouds": 
+        if(desc.toLowerCase() == "scattered clouds")
+            return "./assets/cloud-light.svg";
+        else
+            return "./assets/cloud-sun-light.svg";
+        case "snow": return "./assets/cloud-snow-light.svg";
+        case "haze": return "./assets/cloud-fog-light.svg"; 
+        case "mist": return "./assets/cloud-fog-light.svg";
+        case "rain": return "./assets/cloud-rain-light.svg";
+        default: return "./assets/cloud-sun-light.svg";
     }
 }
 
@@ -274,15 +285,21 @@ favoriteButton.addEventListener('click', function(e){ // Favorite Button
     if(!favorites.includes(currentData.name)){
         favorites.push(currentData.name);
         localStorage.setItem("favList", JSON.stringify(favorites)); // Apparently you have to turn arrays into JSON to local storage them.
-        // add heart image change
     }
     else
     {
         favorites.splice(favorites.indexOf(currentData.name), 1);
         localStorage.setItem("favList", JSON.stringify(favorites));
-        // add heart image change
     }
+    changeFavButton();
 });
+
+function changeFavButton(){
+    if(favorites.includes(currentData.name))
+        favoriteButton.src = "./assets/heart-fill.svg";
+    else
+        favoriteButton.src = "./assets/heart-light.svg";
+}
 
 searchBtn.addEventListener('click', function(e){ // Search Button
     console.log(searchEntry.value);

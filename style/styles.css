@@ -3,6 +3,20 @@
     justify-content: space-evenly;
 }
 
+.color{
+    color: #656565;
+}
+
+.color-darker{
+    color: #424242;
+}
+
+.search-bar{
+    border-radius: 10px;
+    border-width: 0px;
+    box-shadow: 0px 0px 20px rgb(205, 205, 205);
+}
+
 .main-display{
     margin-top: 30px;
     display: flex;
@@ -18,8 +32,18 @@
     margin-left: 20px;
 }
 
+.current{
+    display: flex;
+    justify-content: space-between;
+    margin-left: 10px;
+}
+
 .current-weather{
     display: flex;
+}
+
+.main-temp{
+    font-size: 100px;
 }
 
 .center{
@@ -34,7 +58,7 @@
 }
 
 .icon-setting{
-    width: 70px;
+    width: 100px;
 }
 
 .weekly-forecast{
@@ -66,4 +90,59 @@
     border: none;
     box-shadow: none;
     margin-right: 5px;
+}
+
+.font{
+    font-family:Arial, Helvetica, sans-serif
+}
+
+.time{
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+
+.main-title{
+    font-size: 40px;
+    font-weight: 100;
+}
+
+.card-expand-thing{
+    display: flex;
+    justify-content: space-between;
+}
+
+.smaller-card-thing{
+    width: 400px;
+}
+
+.break{
+    border-style: dashed;
+    border-width: 1.2px;
+}
+
+.not-selected-thing{
+    background-color: rgba(255, 255, 255, 0.534);
+    border-width: 0px;
+}
+
+.selected-thing{
+    border-width: 0px;
+    color:#4a77ab
+}
+
+.body-of-card{
+    border-width: 0px;
+}
+
+.main-high-low{
+    font-size: 20px;
+}
+
+.hour-temp{
+    font-size: 40px;
+}
+
+body{
+    background-color: rgb(223, 228, 232);
 }

@@ -12,12 +12,12 @@
     <!-- Navbar -->
     <div>                 
         <nav class="navbar bg-body-tertiary center-navbar">
-          <h1>climate.xchange</h1>
+          <h1 class="color">climate.xchange</h1>
             <div>
               <div class="d-flex">
-                <input class="form-control me-2" placeholder="Search" id="searchEntry">
-                <button class="btn" type="button" id="searchBtn" style="background-color: rgb(242, 228, 253);">
-                  <img src="./assets/search.png" alt="search button" class="img-fluid" style="width: 30px;">
+                <input class="form-control me-2 search-bar" placeholder="Search" id="searchEntry">
+                <button class="btn" type="button" id="searchBtn" style="background-color: rgb(196, 176, 253);">
+                  <img src="./assets//magnifying-glass-light.svg" alt="search button" class="img-fluid" style="width: 30px;">
                 </button>
               </div>
             </div>
@@ -28,46 +28,47 @@
     <!-- Main Display -->
     <div class="main-display">
 
-        <div class="card separate" style="width: 26.7rem;">
+        <div class="card separate body-of-card" style="width: 26.7rem;">
             <div class="card-body">
               <div class="today-card-header">
-                <h5 class="card-title" id="locationName">Turlock</h5>
-                <button id="favoriteButton"><img src="" alt="favorites heart"></button>
+                <h5 class="card-title main-title color-darker" id="locationName">Turlock</h5>
+                <img id="favoriteButton" src="./assets/heart-light.svg" alt="favorites heart" class="fav-icon">
               </div>
-
                 <div class="current-weather">
-                    <img src="./assets/sun.png" alt="weather icon" class="separate icon-setting img-fluid" id="mainWeatherIcon">
-                    <h1 id="tempDisplay">60 °F</h1>
-                    <hr>
+                    <img src="" alt="weather icon" class="separate icon-setting" id="mainWeatherIcon">
+                    <h1 id="tempDisplay" class="main-temp color-darker">60 °F</h1>
                 </div>
-                <div>
+                <hr class="break">
+                <div class="current color-darker main-high-low">
                   <p id="mainWeatherType">cloudy</p>
                   <p id="mainHighLow">H: 72°F L: 37°F</p>
                 </div>
             </div>
         </div>
 
-          <div class="card" style="width: 26.7rem;">
+          <div class="card body-of-card" style="width: 26.7rem;">
             <div class="card-body">
               <div class="today-card-header">
                 <h5>Today</h5>
                 <h5 id="timeDisplay">12:00 PM</h5>
               </div>
               <div class="today-times">
-                <div>
+                <div class="time">
                   <p id="hourOne">8am</p>
-                  <img src="" alt="weather icon" id="mainIconOne" class="separate icon-setting img-fluid">
-                  <p id="hourOneTemp">60 F°</p>
+                  <img src="" alt="weather icon" id="mainIconOne" class="icon-setting img-fluid">
+                  <p id="hourOneTemp" class="hour-temp color-darker">60 F°</p>
                 </div>
-                <div>
+                <hr class="break">
+                <div class="time">
                   <p id="hourTwo">12pm</p>
-                  <img src="" alt="weather icon" id="mainIconTwo" class="separate icon-setting img-fluid">
-                  <p id="hourTwoTemp">60 F°</p>
+                  <img src="" alt="weather icon" id="mainIconTwo" class="icon-setting img-fluid">
+                  <p id="hourTwoTemp" class="hour-temp color-darker">60 F°</p>
                 </div>
-                <div>
+                <hr class="break">
+                <div class="time">
                   <p id="hourThree">8pm</p>
-                  <img src="" alt="weather icon" id="mainIconThree" class="separate icon-setting img-fluid">
-                  <p id="hourThreeTemp">60 F°</p>
+                  <img src="" alt="weather icon" id="mainIconThree" class="icon-setting img-fluid">
+                  <p id="hourThreeTemp" class="hour-temp color-darker">60 F°</p>
                 </div>
               </div>
             </div>
@@ -79,8 +80,8 @@
     <div class="main-display">
         <div class="weekly-forecast">
           
-          <button class="day-button" id="dayOneButton">
-            <div class="card" style="width: 10rem;">
+          <button class="day-button " id="dayOneButton">
+            <div class="card not-selected-thing" style="width: 10rem;">
               <div class="card-body day-card">
                 <p id="dayOne">Mon 12/4</p>
                 <img src="" alt="weather icon" class="separate icon-setting img-fluid" id="dayOneIcon">
@@ -90,7 +91,7 @@
           </button>
           
         <button class="day-button" id="dayTwoButton">
-          <div class="card" style="width: 10rem;">
+          <div class="card not-selected-thing" style="width: 10rem;">
             <div class="card-body day-card">
               <p id="dayTwo">Tue 12/5</p>
               <img src="" alt="weather icon" class="separate icon-setting img-fluid" id="dayTwoIcon">
@@ -100,7 +101,7 @@
         </button>
 
         <button class="day-button" id="dayThreeButton">
-          <div class="card" style="width: 10rem;">
+          <div class="card not-selected-thing" style="width: 10rem;">
             <div class="card-body day-card">
               <p id="dayThree">Tue 12/5</p>
               <img src="" alt="weather icon" class="separate icon-setting img-fluid" id="dayThreeIcon">
@@ -110,7 +111,7 @@
         </button>
 
         <button class="day-button" id="dayFourButton">
-          <div class="card" style="width: 10rem;">
+          <div class="card not-selected-thing" style="width: 10rem;">
             <div class="card-body day-card">
               <p id="dayFour">Tue 12/5</p>
               <img src="" alt="weather icon" class="separate icon-setting img-fluid" id="dayFourIcon">
@@ -120,7 +121,7 @@
         </button>
 
         <button class="day-button" id="dayFiveButton">
-          <div class="card" style="width: 10rem;">
+          <div class="card not-selected-thing" style="width: 10rem;">
             <div class="card-body day-card">
               <p id="dayFive">Tue 12/5</p>
               <img src="" alt="weather icon" class="separate icon-setting img-fluid" id="dayFiveIcon">
@@ -135,23 +136,25 @@
 
     <!-- Hideable Day Card -->
     <div class="hide" id="dayExpandCard">
-            <div class="card" style="width: 26.7rem;">
-        <div class="card-body">
-          <div>
+            <div class="card" style="width: 40rem;">
+        <div class="card-body card-expand-thing">
+          <div class="smaller-card-thing">
             <h5 id="dayOfWeekExpand">Wednesday</h5>
+            <hr class="break">
+            <p id="desc">Cloudy</p>
           </div>
           <div class="today-times">
-            <div>
+            <div class="separate">
               <p id="hourlyTime1">8am</p>
               <img src="" alt="weather icon" class="separate icon-setting img-fluid" id="hourlyImage1">
               <p id="dailyHourlyTemp1">60 F°</p>
             </div>
-            <div>
+            <div class="separate">
               <p id="hourlyTime2">8am</p>
               <img src="" alt="weather icon" class="separate icon-setting img-fluid" id="hourlyImage2">
               <p id="dailyHourlyTemp2">60 F°</p>
             </div>
-            <div>
+            <div class="separate">
               <p id="hourlyTime3">8am</p>
               <img src="" alt="weather icon" class="separate icon-setting img-fluid" id="hourlyImage3">
               <p id="dailyHourlyTemp3">60 F°</p>
