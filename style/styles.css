@@ -169,6 +169,10 @@
     height: 500px;
 }
 
+.fav-link{
+    text-decoration: underline;
+}
+
 body{
     background-image: url(../assets/bg.png);
     background-size: cover;

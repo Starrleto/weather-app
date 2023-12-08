@@ -341,7 +341,7 @@ favoritesList.addEventListener('click', function(e){ // Favorites Offcanvas Open
     favorites.forEach(element => { // Creates elements for offcanvas
         let e = document.createElement("p");
         e.innerText = element;
-        e.className = "color-darker"
+        e.className = "color-darker fav-link"
         e.addEventListener('click', function(e){ // Allows to directly go to city on click!
             searchAPI(element);
         })

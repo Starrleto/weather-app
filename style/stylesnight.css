@@ -179,6 +179,10 @@
     height: 500px;
 }
 
+.fav-link{
+    text-decoration: underline;
+}
+
 
 body{
     background-image: url(../assets/bgdark.png);
